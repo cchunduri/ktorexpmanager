@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  PostgreSQL:
+    hostname: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=psql
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=expense_manager
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - chai-em-pgsql
+networks:
+  chai-em-pgsql:

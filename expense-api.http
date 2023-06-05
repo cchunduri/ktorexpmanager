@@ -1,0 +1,16 @@
+GET http://localhost:8565/expenses
+
+<> 2023-06-05T202344.200.json
+<> 2023-06-05T200136.200.json
+<> 2023-06-05T194759.200.txt
+
+###
+POST http://localhost:8565/expenses
+content-type: application/json
+
+{
+  "description": "Hair Oil",
+  "amount": "2.0",
+  "category": "Beauty",
+  "place": "Aldi"
+}
