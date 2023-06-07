@@ -14,3 +14,29 @@ content-type: application/json
   "category": "Beauty",
   "place": "Aldi"
 }
+
+###
+POST http://localhost:8565/users
+content-type: application/json
+
+{
+  "name": "Chaitanya",
+  "age": "30",
+  "userName": "cchunduri",
+  "password": "pass",
+  "email": "cchunduri@email.com"
+}
+
+###
+GET http://localhost:8565/users/cchunduri@email.com
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6Imh0dHA6Ly8wLjAuMC4wOjgwODAvIiwidXNlcklkIjoiY2NodW5kdXJpQGVtYWlsLmNvbSIsImV4cCI6MTY4NjIyNjU3NH0.7DtU5jHtChPzU7AstimIwiNXEGnHHxWvUTs8_m9TZ8Q
+
+###
+POST http://localhost:8565/login/
+content-type: application/json
+
+{
+  "email": "cchunduri@email.com",
+  "password": "pass"
+}

@@ -1,22 +1,14 @@
 package com.cchunduri.plugins
 
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import kotlinx.serialization.Serializable
-import kotlinx.coroutines.Dispatchers
+import com.cchunduri.dao.AppUser
+import com.cchunduri.dao.Users
+import com.cchunduri.utils.PasswordUtils
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 
-@Serializable
-data class ExposedUser(val name: String, val age: Int)
 class UserService(private val database: Database) {
-    object Users : Table() {
-        val id = integer("id").autoIncrement()
-        val name = varchar("name", length = 50)
-        val age = integer("age")
-
-        override val primaryKey = PrimaryKey(id)
-    }
 
     init {
         transaction(database) {
@@ -24,36 +16,48 @@ class UserService(private val database: Database) {
         }
     }
 
-    suspend fun <T> dbQuery(block: suspend () -> T): T =
-        newSuspendedTransaction(Dispatchers.IO) { block() }
+    fun create(user: AppUser): UUID? = transaction {
+        if (Users.select { Users.email eq user.email }.count() > 0) {
+            return@transaction null
+        }
 
-    suspend fun create(user: ExposedUser): Int = dbQuery {
-        Users.insert {
+        Users.insertAndGetId {
             it[name] = user.name
             it[age] = user.age
-        }[Users.id]
+            it[userName] = user.userName
+            it[password] = PasswordUtils.hashPassword(user.password)
+            it[email] = user.email
+        }.value
     }
 
-    suspend fun read(id: Int): ExposedUser? {
-        return dbQuery {
-            Users.select { Users.id eq id }
-                .map { ExposedUser(it[Users.name], it[Users.age]) }
+    fun read(email: String): AppUser? {
+        return transaction {
+            Users.select { Users.email eq email }
+                .map { AppUser(it[Users.id].value, it[Users.name], it[Users.age], it[Users.userName], "*******", it[Users.email]) }
                 .singleOrNull()
         }
     }
 
-    suspend fun update(id: Int, user: ExposedUser) {
-        dbQuery {
-            Users.update({ Users.id eq id }) {
+    fun find(email: String, password: String): Boolean {
+        return transaction {
+            val saved = Users.slice(Users.password).select { Users.email eq email }.map { it[Users.password] }.first()
+            return@transaction PasswordUtils.checkPassword(password, saved)
+        }
+    }
+
+    fun update(email: String, user: AppUser) {
+        transaction {
+            Users.update({ Users.email eq email }) {
                 it[name] = user.name
                 it[age] = user.age
+                it[userName] = user.userName
             }
         }
     }
 
-    suspend fun delete(id: Int) {
-        dbQuery {
-            Users.deleteWhere { Users.id.eq(id) }
+    fun delete(email: String) {
+        transaction {
+            Users.deleteWhere { Users.email.eq(email) }
         }
     }
 }

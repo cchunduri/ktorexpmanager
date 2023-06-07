@@ -1,5 +1,7 @@
 package com.cchunduri.dao
 
+import com.cchunduri.serailizers.LocalDateSerializer
+import com.cchunduri.serailizers.UUIDSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -25,30 +27,9 @@ object Expenses : UUIDTable() {
     val category = varchar("category", 60)
     val place = varchar("place", 60)
     val time = datetime("time")
+    val userId = reference("id", Users)
 }
 
-object UUIDSerializer : KSerializer<UUID> {
-    override val descriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
 
-    override fun deserialize(decoder: Decoder): UUID {
-        return UUID.fromString(decoder.decodeString())
-    }
 
-    override fun serialize(encoder: Encoder, value: UUID) {
-        encoder.encodeString(value.toString())
-    }
-}
-
-object LocalDateSerializer : KSerializer<LocalDateTime> {
-    override fun serialize(encoder: Encoder, value: LocalDateTime) {
-        encoder.encodeString(value.toString())
-    }
-
-    override val descriptor: SerialDescriptor
-        get() = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
-
-    override fun deserialize(decoder: Decoder): LocalDateTime {
-        return LocalDateTime.parse(decoder.decodeString())
-    }
-}
 

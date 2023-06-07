@@ -10,3 +10,10 @@ postgres:
   url: "jdbc:postgresql://localhost:5432/expense_manager"
   user: "postgres"
   password: "psql"
+
+jwt:
+  secret: "expense-manager-jwt-sec"
+  issuer: "http://0.0.0.0:8080/"
+  audience: "http://0.0.0.0:8080/hello"
+  realm: "Access to 'expenses'"
+  validity: 86400000
