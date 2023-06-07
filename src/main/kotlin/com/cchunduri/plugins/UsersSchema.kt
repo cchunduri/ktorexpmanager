@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
-class UserService(private val database: Database) {
+class UserService(database: Database) {
 
     init {
         transaction(database) {

@@ -1,6 +1,6 @@
 package com.cchunduri.dto
 
-import com.cchunduri.dao.LocalDateSerializer
+import com.cchunduri.serailizers.LocalDateSerializer
 import com.cchunduri.serailizers.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime

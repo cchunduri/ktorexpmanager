@@ -3,8 +3,7 @@ package com.cchunduri.dao
 import com.cchunduri.serailizers.UUIDSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.id.UUIDTable
-import org.jetbrains.exposed.sql.Table
-import java.util.UUID
+import java.util.*
 
 @Serializable
 data class AppUser(

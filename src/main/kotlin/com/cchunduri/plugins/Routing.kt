@@ -16,7 +16,7 @@ import java.util.UUID
 
 fun Application.configureRouting() {
     val database = connectToPostgres()
-    val expenseService: ExpenseService = ExpenseService(database)
+    val expenseService = ExpenseService(database)
 
     routing {
         get("/") {

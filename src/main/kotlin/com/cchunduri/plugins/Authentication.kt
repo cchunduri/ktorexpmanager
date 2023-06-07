@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import java.util.*
 
 fun Application.configureAuthentication() {
     val secret = environment.config.property("jwt.secret").getString()
