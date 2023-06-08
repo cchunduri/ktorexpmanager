@@ -40,8 +40,12 @@ class UserService(database: Database) {
 
     fun find(email: String, password: String): Boolean {
         return transaction {
-            val saved = Users.slice(Users.password).select { Users.email eq email }.map { it[Users.password] }.first()
-            return@transaction PasswordUtils.checkPassword(password, saved)
+            try {
+                val saved = Users.slice(Users.password).select { Users.email eq email }.map { it[Users.password] }.first()
+                return@transaction PasswordUtils.checkPassword(password, saved)
+            } catch (ex: NoSuchElementException) {
+                return@transaction false
+            }
         }
     }
 

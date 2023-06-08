@@ -1,6 +1,7 @@
 package com.cchunduri
 
 import com.cchunduri.plugins.configureAuthentication
+import com.cchunduri.plugins.configureDatabase
 import com.cchunduri.plugins.configureHTTP
 import com.cchunduri.plugins.configureRouting
 import com.cchunduri.plugins.configureSerialization
@@ -15,4 +16,5 @@ fun Application.module() {
     configureSerialization()
     configureHTTP()
     configureRouting()
+    configureDatabase()
 }

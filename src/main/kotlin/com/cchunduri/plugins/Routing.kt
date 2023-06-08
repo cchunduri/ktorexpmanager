@@ -110,7 +110,7 @@ fun Application.configureRouting() {
                     val token = jwtUtils.makeToken(user.email)
                     call.respond(HttpStatusCode.OK, mapOf("token" to token))
                 } else {
-                    call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
+                    call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Invalid credentials"))
                 }
             }
         }

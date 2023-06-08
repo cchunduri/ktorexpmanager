@@ -21,7 +21,7 @@ object Expenses : UUIDTable() {
     val category = varchar("category", 60)
     val place = varchar("place", 60)
     val time = datetime("time")
-    val userId = reference("id", Users)
+    val userId = reference("userId", Users)
 }
 
 

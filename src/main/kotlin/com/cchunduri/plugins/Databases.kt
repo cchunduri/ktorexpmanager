@@ -1,5 +1,7 @@
 package com.cchunduri.plugins
 
+import com.cchunduri.dao.Expenses
+import com.cchunduri.dao.Users
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -7,9 +9,17 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.*
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.*
 import java.util.*
 
+fun Application.configureDatabase() {
+    val database = connectToPostgres()
+
+    transaction(database) {
+        SchemaUtils.create(Users, Expenses, inBatch = true)
+    }
+}
 /**
  * Makes a connection to a Postgres database.
  *
