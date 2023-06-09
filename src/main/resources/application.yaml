@@ -7,7 +7,7 @@ ktor:
   development: true
 
 postgres:
-  url: "jdbc:postgresql://postgres:5432/expense_manager"
+  url: "jdbc:postgres://postgres:5432/expense_manager"
   user: "postgres"
   password: "psql"
 
