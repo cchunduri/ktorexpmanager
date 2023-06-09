@@ -6,6 +6,8 @@ services:
       - "8080:8080"
     depends_on:
       - PostgreSQL
+    networks:
+      - chai-em-pgsql
   PostgreSQL:
     hostname: postgres
     image: postgres
