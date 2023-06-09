@@ -7,9 +7,7 @@ ktor:
   development: true
 
 postgres:
-  url: ${DB_JDBC_URL}
-  user: ${DB_USER}
-  password: ${DB_PASS}
+  url: "jdbc:postgres://${db.USERNAME}:${db.PASSWORD}@${db.HOSTNAME}:${db.PORT}/${db.DATABASE}
 
 jwt:
   secret: "expense-manager-jwt-sec"
