@@ -7,9 +7,9 @@ ktor:
   development: true
 
 postgres:
-  url: "jdbc:postgres://${USERNAME}:${PASSWORD}@${HOSTNAME}:${PORT}/${DATABASE}"
-  user: "${USERNAME}"
-  password: "${PASSWORD}"
+  url: "jdbc:postgresql://postgres:5432/expense_manager"
+  user: "postgres"
+  password: "psql"
 
 jwt:
   secret: "expense-manager-jwt-sec"
