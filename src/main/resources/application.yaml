@@ -8,6 +8,8 @@ ktor:
 
 postgres:
   url: "jdbc:postgres://${db.USERNAME}:${db.PASSWORD}@${db.HOSTNAME}:${db.PORT}/${db.DATABASE}"
+  user: "${db.USERNAME}"
+  password: "${db.PASSWORD}"
 
 jwt:
   secret: "expense-manager-jwt-sec"
