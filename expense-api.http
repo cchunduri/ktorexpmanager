@@ -7,12 +7,13 @@ GET http://localhost:8565/expenses
 ###
 POST http://localhost:8565/expenses
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6Imh0dHA6Ly8wLjAuMC4wOjgwODAvIiwidXNlckVtYWlsIjoiY2NodW5kdXJpQGVtYWlsLmNvbSIsImV4cCI6MTY4Njg0NTk2NH0.hfp_foeKzYNCABFBCp4lKuE4coZKc-VvGdxOBwo47eg
 
 {
-  "description": "Hair Oil",
-  "amount": "2.0",
+  "description": "Burger with Pomes",
+  "amount": "16",
   "category": "Beauty",
-  "place": "Aldi"
+  "place": "Burger King"
 }
 
 ###
@@ -40,3 +41,8 @@ content-type: application/json
   "email": "cchunduri@email.com",
   "password": "pass"
 }
+
+###
+GET http://localhost:8565/users/cchunduri@email.com/expenses
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6Imh0dHA6Ly8wLjAuMC4wOjgwODAvIiwidXNlckVtYWlsIjoiY2NodW5kdXJpQGVtYWlsLmNvbSIsImV4cCI6MTY4Njg0NTk2NH0.hfp_foeKzYNCABFBCp4lKuE4coZKc-VvGdxOBwo47eg

@@ -1,6 +1,6 @@
 package com.cchunduri.plugins
 
-import com.cchunduri.dao.AppUser
+import com.cchunduri.dao.User
 import com.cchunduri.dao.Expense
 import com.cchunduri.dto.LoginRequest
 import com.cchunduri.services.ExpenseService
@@ -67,7 +67,7 @@ fun Application.configureRouting() {
         val userService = UserService(database)
         route("/users") {
             post {
-                val user = call.receive<AppUser>()
+                val user = call.receive<User>()
                 userService.create(user)?.let {
                     call.respond(HttpStatusCode.Created, it.toString())
                 } ?: call.respond(HttpStatusCode.Conflict, "User already exist")
@@ -90,7 +90,7 @@ fun Application.configureRouting() {
                 // Update user
                 put {
                     val email = call.parameters["email"] ?: throw IllegalArgumentException("Invalid Email")
-                    val user = call.receive<AppUser>()
+                    val user = call.receive<User>()
                     userService.update(email, user)
                     call.respond(HttpStatusCode.OK)
                 }
@@ -100,6 +100,14 @@ fun Application.configureRouting() {
                     val email = call.parameters["email"] ?: throw IllegalArgumentException("Invalid Email")
                     userService.delete(email)
                     call.respond(HttpStatusCode.OK)
+                }
+            }
+
+            route("/users/{email}/expenses") {
+                get {
+                    val email = call.parameters["email"] ?: throw IllegalArgumentException("Invalid Email")
+                    val expenseList = userService.getUserExpenses(email)
+                    call.respond(HttpStatusCode.OK, expenseList)
                 }
             }
         }

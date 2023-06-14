@@ -3,11 +3,11 @@ ktor:
     modules:
       - com.cchunduri.ApplicationKt.module
   deployment:
-    port: 8080
+    port: 8565
   development: true
 
 postgres:
-  url: "jdbc:postgresql://postgres:5432/expense_manager"
+  url: "jdbc:postgresql://localhost:5432/expense_manager"
   user: "postgres"
   password: "psql"
 

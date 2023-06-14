@@ -45,6 +45,7 @@ class ExpenseService(
         newExpense: Expense
     ): UUID = transaction {
         val userQuery = getUserByEmail(userEmail).map { it[Users.id] }.first()
+
         Expenses.insertAndGetId {
             it[id] = UUID.randomUUID()
             it[description] = newExpense.description
@@ -52,6 +53,7 @@ class ExpenseService(
             it[category] = newExpense.category
             it[place] = newExpense.place
             it[time] = LocalDateTime.now()
+            it[userId] = userQuery
         }.value
     }
 
