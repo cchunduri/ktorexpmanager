@@ -1,8 +1,7 @@
 package com.cchunduri.plugins
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.JWTVerifier
-import com.auth0.jwt.algorithms.Algorithm
+import com.cchunduri.utils.JWT_CLAIM_USER_EMAIL
+import com.cchunduri.utils.JwtUtils
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -10,17 +9,16 @@ import io.ktor.server.auth.jwt.*
 fun Application.configureAuthentication() {
     val secret = environment.config.property("jwt.secret").getString()
     val issuer = environment.config.property("jwt.issuer").getString()
+    val validityInMs = environment.config.property("jwt.validity").getString().toLong()
 
-    val verifier: JWTVerifier = JWT
-        .require(Algorithm.HMAC256(secret))
-        .withIssuer(issuer)
-        .build()
+
+    val jwtUtils = JwtUtils(environment)
 
     install(Authentication) {
         jwt("jwt") {
-            verifier(verifier)
+            verifier(jwtUtils.getJwtVerifier(secret, issuer))
             validate {
-                val userId = it.payload.getClaim("userId").asString()
+                val userId = getUserIdFromJwt(it)
                 if (userId != null) {
                     JWTPrincipal(it.payload)
                 } else {
@@ -30,4 +28,7 @@ fun Application.configureAuthentication() {
         }
     }
 }
+
+fun getUserIdFromJwt(it: JWTCredential): String? =
+    it.payload.getClaim(JWT_CLAIM_USER_EMAIL).asString()
 

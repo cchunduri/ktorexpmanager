@@ -4,12 +4,14 @@ import com.cchunduri.dao.AppUser
 import com.cchunduri.dao.Expense
 import com.cchunduri.dto.LoginRequest
 import com.cchunduri.services.ExpenseService
+import com.cchunduri.utils.JWT_CLAIM_USER_EMAIL
 import com.cchunduri.utils.JwtUtils
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.receive
 import java.lang.RuntimeException
 import java.util.UUID
@@ -30,8 +32,10 @@ fun Application.configureRouting() {
                 }
 
                 post {
+                    val principal = call.principal<JWTPrincipal>()
+                    val userEmail = principal?.payload?.getClaim(JWT_CLAIM_USER_EMAIL)?.asString() ?: ""
                     val newExpense = call.receive<Expense>()
-                    val newExpenseId = expenseService.addExpense(newExpense).toString()
+                    val newExpenseId = expenseService.addExpense(userEmail, newExpense).toString()
                     call.respond(HttpStatusCode.Created, newExpenseId)
                 }
             }

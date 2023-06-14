@@ -2,6 +2,8 @@ package com.cchunduri.services
 
 import com.cchunduri.dao.Expense
 import com.cchunduri.dao.Expenses
+import com.cchunduri.dao.Users
+import com.cchunduri.plugins.getUserByEmail
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -39,8 +41,10 @@ class ExpenseService(
     }
 
     fun addExpense(
+        userEmail: String,
         newExpense: Expense
     ): UUID = transaction {
+        val userQuery = getUserByEmail(userEmail).map { it[Users.id] }.first()
         Expenses.insertAndGetId {
             it[id] = UUID.randomUUID()
             it[description] = newExpense.description

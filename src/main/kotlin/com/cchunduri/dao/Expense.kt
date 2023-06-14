@@ -11,8 +11,12 @@ import java.util.*
 @Serializable
 data class Expense(
     @Serializable(with = UUIDSerializer::class) val id: UUID? = null,
-    val description: String, val amount: Double, val category: String, val place: String,
-    @Serializable(with = LocalDateSerializer::class) val time: LocalDateTime? = null
+    val description: String,
+    val amount: Double,
+    val category: String,
+    val place: String,
+    @Serializable(with = LocalDateSerializer::class)
+    val time: LocalDateTime? = null
 )
 
 object Expenses : UUIDTable() {

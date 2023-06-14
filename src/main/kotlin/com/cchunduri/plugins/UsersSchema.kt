@@ -17,7 +17,7 @@ class UserService(database: Database) {
     }
 
     fun create(user: AppUser): UUID? = transaction {
-        if (Users.select { Users.email eq user.email }.count() > 0) {
+        if (getUserByEmail(user.email).count() > 0) {
             return@transaction null
         }
 
@@ -65,3 +65,5 @@ class UserService(database: Database) {
         }
     }
 }
+
+fun getUserByEmail(userEmail: String): Query = Users.select { Users.email eq userEmail }
