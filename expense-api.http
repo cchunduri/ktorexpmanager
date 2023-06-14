@@ -25,7 +25,7 @@ content-type: application/json
   "age": "30",
   "userName": "cchunduri",
   "password": "pass",
-  "email": "cchunduri@email.com"
+  "email": "cchunduri@gmail.com"
 }
 
 ###
@@ -38,7 +38,7 @@ POST http://localhost:8565/login/
 content-type: application/json
 
 {
-  "email": "cchunduri@email.com",
+  "email": "cchunduri@gmail.com",
   "password": "pass"
 }
 
